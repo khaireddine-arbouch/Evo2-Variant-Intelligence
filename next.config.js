@@ -11,6 +11,12 @@ const nextConfig = {
     '@radix-ui/react-label',
     '@radix-ui/react-slot',
   ],
+  // Webpack configuration for pnpm symlink resolution (needed for builds)
+  webpack: (config, { isServer }) => {
+    // Resolve symlinks properly for pnpm
+    config.resolve.symlinks = true
+    return config
+  },
   // Production optimizations
   compress: true,
   poweredByHeader: false,

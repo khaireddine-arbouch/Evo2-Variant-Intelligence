@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useEffect, useRef } from "react"
+import { useState, useCallback, useEffect, useRef, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import type { User } from "@supabase/supabase-js"
 import { AppHeader } from "@/components/app-header"
@@ -31,7 +31,7 @@ const MolstarViewer = dynamic<MolstarViewerProps>(
   },
 )
 
-export default function Evo2Console() {
+function ConsoleContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const sessionId = searchParams.get("session")
@@ -332,6 +332,23 @@ export default function Evo2Console() {
         </ResizablePanelGroup>
       </main>
     </div>
+  )
+}
+
+export default function Evo2Console() {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-screen flex items-center justify-center bg-background">
+          <div className="flex flex-col items-center gap-3">
+            <Loader2 className="w-6 h-6 animate-spin text-primary" />
+            <p className="text-sm text-muted-foreground">Loading console...</p>
+          </div>
+        </div>
+      }
+    >
+      <ConsoleContent />
+    </Suspense>
   )
 }
 
