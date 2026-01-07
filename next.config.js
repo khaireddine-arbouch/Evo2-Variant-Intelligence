@@ -13,8 +13,21 @@ const nextConfig = {
   ],
   // Webpack configuration for pnpm symlink resolution (needed for builds)
   webpack: (config, { isServer }) => {
-    // Resolve symlinks properly for pnpm
+    // Resolve symlinks properly for pnpm (critical for Windows)
     config.resolve.symlinks = true
+    
+    // Ensure proper module resolution
+    if (!config.resolve.modules) {
+      config.resolve.modules = []
+    }
+    config.resolve.modules.push('node_modules')
+    
+    // Better handling of pnpm's nested structure
+    config.resolve.extensionAlias = {
+      '.js': ['.js', '.ts', '.tsx'],
+      '.jsx': ['.jsx', '.tsx'],
+    }
+    
     return config
   },
   // Production optimizations

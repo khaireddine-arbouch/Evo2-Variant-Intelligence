@@ -77,12 +77,12 @@ export function GeneContextPanel({ gene, assembly }: GeneContextPanelProps) {
   const formattedLength = geneLength.toLocaleString()
 
   return (
-    <div className="h-full overflow-auto bg-background">
+    <div className="h-full overflow-auto bg-background" data-tour="gene-context-panel">
       {/* Gene Header */}
-      <div className="sticky top-0 bg-card border-b border-border px-4 py-3 z-10">
+      <div className="sticky top-0 bg-card border-b border-border px-4 py-3 z-10" data-tour="gene-header">
         <div className="flex items-start justify-between">
-          <div>
-            <div className="flex items-center gap-2">
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1">
               <h2 className="text-lg font-semibold font-mono">{gene.symbol}</h2>
               <span
                 className={cn(
@@ -93,13 +93,13 @@ export function GeneContextPanel({ gene, assembly }: GeneContextPanelProps) {
                 {assembly}
               </span>
             </div>
-            <p className="text-xs text-muted-foreground mt-0.5">{gene.name}</p>
+            <p className="text-xs text-muted-foreground">{gene.name}</p>
           </div>
           {gene.ncbiGeneId && (
             <Button
               variant="outline"
               size="sm"
-              className="h-7 text-xs gap-1.5 bg-transparent"
+              className="h-7 text-xs gap-1.5 bg-transparent ml-2"
               onClick={() => window.open(`https://www.ncbi.nlm.nih.gov/gene/${gene.ncbiGeneId}`, "_blank")}
             >
               NCBI
@@ -111,7 +111,7 @@ export function GeneContextPanel({ gene, assembly }: GeneContextPanelProps) {
 
       <div className="p-4 space-y-6">
         {/* Genomic Location */}
-        <section>
+        <section data-tour="gene-coordinates">
           <SectionHeader
             title="Genomic Location"
             tooltip="Chromosomal coordinates and genomic span of the selected gene"

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import type { User } from "@supabase/supabase-js"
 import { Button } from "@/components/ui/button"
+import { TourProvider, useTour } from "@/components/tour-provider"
 import { Input } from "@/components/ui/input"
 import {
   Dialog,
@@ -41,8 +42,9 @@ interface Session {
   updated_at: string
 }
 
-export default function DashboardPage() {
+function DashboardContent() {
   const router = useRouter()
+  const { startTour } = useTour()
   const [sessions, setSessions] = useState<Session[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isCreating, setIsCreating] = useState(false)
@@ -174,14 +176,17 @@ export default function DashboardPage() {
 
   return (
     <div className="h-screen flex flex-col bg-background">
-      <AppHeader
-        currentAssembly="hg38"
-        sessionName="Dashboard"
-        onCommandPalette={() => {}}
-        userEmail={user?.email}
-      />
+      <div data-tour="header-dashboard">
+        <AppHeader
+          currentAssembly="hg38"
+          sessionName="Dashboard"
+          onCommandPalette={() => {}}
+          onStartTour={startTour}
+          userEmail={user?.email}
+        />
+      </div>
 
-      <main className="flex-1 overflow-auto p-6">
+        <main className="flex-1 overflow-auto p-6">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
@@ -194,6 +199,7 @@ export default function DashboardPage() {
             <Button
               onClick={() => setShowNewDialog(true)}
               className="gap-2"
+              data-tour="new-session-button"
             >
               <Plus className="w-4 h-4" />
               New Analysis
@@ -232,6 +238,7 @@ export default function DashboardPage() {
                   key={session.id}
                   className="group relative p-4 bg-card border border-border rounded-lg hover:border-primary/50 transition-colors cursor-pointer"
                   onClick={() => handleOpenSession(session.id)}
+                  data-tour="session-card"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1 min-w-0">
@@ -362,6 +369,14 @@ export default function DashboardPage() {
         </DialogContent>
       </Dialog>
     </div>
+  )
+}
+
+export default function DashboardPage() {
+  return (
+    <TourProvider page="dashboard">
+      <DashboardContent />
+    </TourProvider>
   )
 }
 

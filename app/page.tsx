@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { ArrowRight, BarChart3, Lock, Cpu, Shield, Sparkles, Activity, Globe2, Users, Layers } from "lucide-react"
+import { LandingAuthCta } from "@/components/landing-auth-cta"
 
 const featurePillars = [
   {
@@ -65,13 +66,7 @@ export default function LandingPage() {
             >
               Docs
             </Link>
-            <Link
-              href="/signin?redirect=/dashboard"
-              className="flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 hover:shadow-primary/30 transition"
-            >
-              Launch console
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+            <LandingAuthCta variant="header" />
           </div>
         </header>
 
@@ -83,19 +78,13 @@ export default function LandingPage() {
                 Live inference on Evo2 · Secure by default
               </div>
               <h1 className="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
-                A Palantir-grade console for variant intelligence
+                An enterprise console for variant intelligence
               </h1>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Bloomberg Terminal–style depth for genomics: explore assemblies, stage hypotheses, and ship decisions with a cockpit that keeps your models, evidence, and audit trail in one place.
+                Enterprise-grade depth for genomics: explore assemblies, stage hypotheses, and ship decisions with a cockpit that keeps your models, evidence, and audit trail in one place.
               </p>
               <div className="flex flex-wrap gap-3">
-                <Link
-                  href="/signin?redirect=/dashboard"
-                  className="flex items-center gap-2 rounded-md bg-primary px-4 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-primary/35 transition"
-                >
-                  Enter workspace
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
+                <LandingAuthCta variant="hero" />
                 <Link
                   href="/docs"
                   className="flex items-center gap-2 rounded-md border border-border px-4 py-3 text-sm font-medium text-foreground/80 hover:text-foreground hover:border-primary/40 transition"
@@ -198,7 +187,7 @@ export default function LandingPage() {
               <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">Capabilities</p>
               <h2 className="text-2xl font-semibold">Landing zone for research and clinical teams</h2>
               <p className="text-sm text-muted-foreground max-w-3xl">
-                A palantir-like lens for variant intelligence. Built-in governance keeps analysts, bioinformaticians, and leadership aligned.
+                A unified lens for variant intelligence. Built-in governance keeps analysts, bioinformaticians, and leadership aligned.
               </p>
             </div>
             <div className="grid gap-4 md:grid-cols-2">
@@ -240,13 +229,7 @@ export default function LandingPage() {
               ))}
             </div>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                href="/signin?redirect=/dashboard"
-                className="flex items-center gap-2 rounded-md bg-primary px-4 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-primary/35 transition"
-              >
-                Start with auth-enabled console
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+              <LandingAuthCta variant="section" />
               <Link
                 href="/docs"
                 className="rounded-md border border-border px-4 py-3 text-sm font-medium text-foreground/80 hover:text-foreground hover:border-primary/40 transition"
@@ -256,6 +239,77 @@ export default function LandingPage() {
             </div>
           </section>
         </main>
+
+        <footer className="relative border-t border-border bg-card/40 backdrop-blur">
+          <div className="mx-auto max-w-6xl px-6 py-12">
+            <div className="grid gap-8 md:grid-cols-4">
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/15">
+                    <BarChart3 className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Evo2 Variant Intelligence</p>
+                    <p className="text-sm text-muted-foreground">Pathogenicity operations cockpit</p>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <h3 className="text-sm font-semibold uppercase tracking-wide">Product</h3>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>
+                    <Link href="/docs" className="hover:text-foreground transition-colors">
+                      Documentation
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/signin?redirect=/dashboard" className="hover:text-foreground transition-colors">
+                      Console
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/dashboard" className="hover:text-foreground transition-colors">
+                      Dashboard
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <div className="space-y-4">
+                <h3 className="text-sm font-semibold uppercase tracking-wide">Resources</h3>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>
+                    <Link href="/docs" className="hover:text-foreground transition-colors">
+                      API Reference
+                    </Link>
+                  </li>
+                  <li>
+                    <span className="cursor-not-allowed opacity-50">Support</span>
+                  </li>
+                  <li>
+                    <span className="cursor-not-allowed opacity-50">Changelog</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="space-y-4">
+                <h3 className="text-sm font-semibold uppercase tracking-wide">Security</h3>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>
+                    <span className="cursor-not-allowed opacity-50">Privacy Policy</span>
+                  </li>
+                  <li>
+                    <span className="cursor-not-allowed opacity-50">Terms of Service</span>
+                  </li>
+                  <li>
+                    <span className="cursor-not-allowed opacity-50">Compliance</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="mt-8 border-t border-border pt-8 text-center text-sm text-muted-foreground">
+              <p>© {new Date().getFullYear()} Evo2 Variant Intelligence. All rights reserved.</p>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   )

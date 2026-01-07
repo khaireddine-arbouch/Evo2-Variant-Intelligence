@@ -210,7 +210,7 @@
   opacity: 1;
 }
 
-/* Bloomberg Terminal / Palantir styling enhancements */
+/* Professional terminal styling enhancements */
 @layer base {
   body {
     font-feature-settings: "tnum", "lnum", "zero";
@@ -249,4 +249,74 @@ table {
 
 .rounded-lg {
   border-radius: calc(var(--radius) + 2px);
+}
+
+/* Custom styles for tour overlay to keep highlighted sections visible */
+.react-joyride__overlay {
+  mix-blend-mode: normal !important;
+  background: transparent !important;
+}
+
+/* Spotlight - make highlighted section 100% visible with glowing border */
+.react-joyride__spotlight {
+  /* Remove any opacity or darkening on the spotlight itself */
+  opacity: 1 !important;
+  background: transparent !important;
+  /* Create glowing border effect with multiple shadows - outer shadow creates the dark overlay */
+  box-shadow: 
+    0 0 0 4px rgba(59, 130, 246, 0.9),
+    0 0 0 6px rgba(59, 130, 246, 0.6),
+    0 0 25px rgba(59, 130, 246, 0.7),
+    0 0 0 9999px rgba(0, 0, 0, 0.75) !important;
+  /* Ensure the element inside is fully visible */
+  filter: none !important;
+  /* Ensure no background overlay on the spotlight area */
+  background-color: transparent !important;
+  /* Add animation for attention */
+  animation: spotlight-pulse 2s ease-in-out infinite !important;
+}
+
+/* Pulse animation for the glowing border */
+@keyframes spotlight-pulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 0 4px rgba(59, 130, 246, 0.9),
+      0 0 0 6px rgba(59, 130, 246, 0.6),
+      0 0 25px rgba(59, 130, 246, 0.7),
+      0 0 0 9999px rgba(0, 0, 0, 0.75);
+  }
+  50% {
+    box-shadow: 
+      0 0 0 5px rgba(59, 130, 246, 1),
+      0 0 0 8px rgba(59, 130, 246, 0.8),
+      0 0 35px rgba(59, 130, 246, 0.9),
+      0 0 0 9999px rgba(0, 0, 0, 0.75);
+  }
+}
+
+/* Ensure elements inside spotlight are not affected by overlay */
+.react-joyride__spotlight,
+.react-joyride__spotlight * {
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: none !important;
+  background-color: transparent !important;
+}
+
+/* Make sure the spotlight wrapper doesn't add any darkening */
+.react-joyride__spotlight__wrapper {
+  background: transparent !important;
+  opacity: 1 !important;
+}
+
+.react-joyride__tooltip {
+  background: hsl(var(--card)) !important;
+  border: 3px solid white !important;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.4),
+    0 0 0 1px hsl(var(--primary)),
+    0 0 20px rgba(255, 255, 255, 0.1) !important;
+  color: hsl(var(--foreground)) !important;
+  /* Ensure tooltip stands out */
+  z-index: 10001 !important;
 }

@@ -131,9 +131,9 @@ export function DiscoveryPanel({
   }
 
   return (
-    <div className="h-full flex flex-col bg-card border-r border-border">
+    <div className="h-full flex flex-col bg-card border-r border-border" data-tour="discovery-panel">
       {/* Genome Assembly Selector */}
-      <div className="p-3 border-b border-border">
+      <div className="p-3 border-b border-border" data-tour="genome-assembly-selector">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-1.5">
             <Database className="w-3.5 h-3.5 text-muted-foreground" />
@@ -195,6 +195,7 @@ export function DiscoveryPanel({
       <div className="flex border-b border-border">
         <button
           onClick={() => setActiveTab("search")}
+          data-tour={activeTab === "search" ? "gene-search-tab" : undefined}
           className={cn(
             "flex-1 px-3 py-2 text-xs font-medium transition-colors",
             activeTab === "search"
@@ -206,6 +207,7 @@ export function DiscoveryPanel({
         </button>
         <button
           onClick={() => setActiveTab("browse")}
+          data-tour={activeTab === "browse" ? "browse-tab" : undefined}
           className={cn(
             "flex-1 px-3 py-2 text-xs font-medium transition-colors",
             activeTab === "browse"
@@ -223,7 +225,7 @@ export function DiscoveryPanel({
           <div className="flex flex-col h-full">
             {/* Search Input */}
             <div className="p-3 space-y-2">
-              <div className="relative">
+              <div className="relative" data-tour="gene-search-input">
                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
                 <Input
                   value={searchQuery}
@@ -260,7 +262,7 @@ export function DiscoveryPanel({
             </div>
 
             {/* Results or Recent/Pinned */}
-            <div className="flex-1 overflow-auto">
+            <div className="flex-1 overflow-auto" data-tour="gene-results">
               {searchResults.length > 0 ? (
                 <div className="p-3 pt-0">
                   <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-2">

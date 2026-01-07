@@ -308,7 +308,7 @@ export function VariantAnalysisPanel({ gene, assembly, prefillPosition, prefillR
   }
 
   return (
-    <div className="h-full flex flex-col bg-card border-l border-border overflow-hidden">
+    <div className="h-full flex flex-col bg-card border-l border-border overflow-hidden" data-tour="variant-analysis-panel">
       {/* Header */}
       <div className="px-4 py-3 border-b border-border shrink-0">
         <div className="flex items-center gap-2">
@@ -361,7 +361,7 @@ export function VariantAnalysisPanel({ gene, assembly, prefillPosition, prefillR
           )}
 
           {/* Input Form */}
-          <div className="space-y-3">
+          <div className="space-y-3" data-tour="variant-inputs">
             <div>
               <div className="flex items-center gap-1.5 mb-1">
                 <Label className="text-xs text-muted-foreground">Mutation Type</Label>
@@ -498,7 +498,7 @@ export function VariantAnalysisPanel({ gene, assembly, prefillPosition, prefillR
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <div className="w-full">
+                  <div className="w-full" data-tour="analyze-button">
                     <Button
                       onClick={handleAnalyze}
                       disabled={isAnalyzing || isCheckingCache || !gene || !position || !reference || !alternative}
@@ -534,7 +534,7 @@ export function VariantAnalysisPanel({ gene, assembly, prefillPosition, prefillR
 
           {/* Result Card */}
           {result && (
-            <div className="mt-4">
+            <div className="mt-4" data-tour="variant-result">
               <VariantResultCard result={result} isCached={isCachedResult} />
             </div>
           )}

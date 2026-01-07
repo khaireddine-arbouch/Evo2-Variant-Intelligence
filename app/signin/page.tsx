@@ -11,6 +11,7 @@ function SignInContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const redirect = searchParams.get("redirect") || "/dashboard"
+  const queryMode = searchParams.get("mode")
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -18,6 +19,14 @@ function SignInContent() {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (queryMode === "signup") {
+      setMode("signup")
+    } else if (queryMode === "signin") {
+      setMode("signin")
+    }
+  }, [queryMode])
 
   useEffect(() => {
     const checkSession = async () => {
@@ -39,6 +48,15 @@ function SignInContent() {
       if (mode === "signin") {
         const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
         if (signInError) throw signInError
+        
+        // Check if this is a new user (first login after signup)
+        // The flag might have been set during signup, or check if user has no sessions
+        const isNewUser = sessionStorage.getItem("evo2-new-user") === "true"
+        if (isNewUser) {
+          // Keep the flag for when they reach dashboard/console
+          // Don't clear it here, let the tour provider handle it
+        }
+        
         router.replace(redirect)
         return
       }
@@ -55,6 +73,12 @@ function SignInContent() {
         }
       })
       if (signUpError) throw signUpError
+      
+      // Set flag to trigger tour for new users
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("evo2-new-user", "true")
+      }
+      
       setMessage("Account created. Please check your email if confirmation is required.")
       setMode("signin")
     } catch (err) {
@@ -146,14 +170,16 @@ function SignInContent() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-sm text-muted-foreground">
-              <p>Password-based auth; magic links can be enabled in Supabase.</p>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between text-sm">
+                <p className="text-muted-foreground">Password-based auth; magic links can be enabled in Supabase.</p>
+              </div>
               <button
                 type="button"
-                className="text-primary hover:text-primary/80"
+                className="w-full rounded-md border border-border bg-background/50 px-4 py-2.5 text-sm font-medium text-foreground hover:border-primary/40 hover:bg-background/80 transition-colors"
                 onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
               >
-                {mode === "signin" ? "Create account" : "Use existing account"}
+                {mode === "signin" ? "Create new account" : "Sign in with existing account"}
               </button>
             </div>
 

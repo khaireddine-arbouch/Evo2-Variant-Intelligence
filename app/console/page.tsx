@@ -18,6 +18,7 @@ import dynamic from "next/dynamic"
 import { fetchWithAuth, requireUserSession } from "@/lib/auth-client"
 import { getStructureForGene, type GeneStructureMapping } from "@/lib/structure-map"
 import type { MolstarViewerProps } from "@/components/molstar-viewer"
+import { TourProvider, useTour } from "@/components/tour-provider"
 
 const MolstarViewer = dynamic<MolstarViewerProps>(
   () => import("@/components/molstar-viewer").then((mod) => mod.MolstarViewer),
@@ -31,10 +32,11 @@ const MolstarViewer = dynamic<MolstarViewerProps>(
   },
 )
 
-function ConsoleContent() {
+function ConsoleContentInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const sessionId = searchParams.get("session")
+  const { startTour } = useTour()
 
   const [currentUser, setCurrentUser] = useState<User | null>(null)
   const [authChecking, setAuthChecking] = useState(true)
@@ -214,24 +216,29 @@ function ConsoleContent() {
 
   return (
     <div className="h-screen flex flex-col bg-background">
-      <AppHeader
-        currentAssembly={selectedAssembly}
-        sessionName={sessionName}
-        onAssemblyChange={handleAssemblyChange}
-        onSessionRename={handleSessionRename}
-        onCommandPalette={handleCommandPalette}
-        userEmail={currentUser?.email}
-      />
+      <div data-tour="header-console">
+        <AppHeader
+          currentAssembly={selectedAssembly}
+          sessionName={sessionName}
+          onAssemblyChange={handleAssemblyChange}
+          onSessionRename={handleSessionRename}
+          onCommandPalette={handleCommandPalette}
+          onStartTour={startTour}
+          userEmail={currentUser?.email}
+        />
+      </div>
 
-      <main className="flex-1 overflow-hidden">
+        <main className="flex-1 overflow-hidden">
         <ResizablePanelGroup direction="horizontal" className="h-full">
           <ResizablePanel defaultSize={20} minSize={15} maxSize={30}>
-            <DiscoveryPanel
-              selectedAssembly={selectedAssembly}
-              onAssemblyChange={handleAssemblyChange}
-              onGeneSelect={handleGeneSelect}
-              selectedGene={selectedGene}
-            />
+            <div data-tour="discovery-panel" className="h-full">
+              <DiscoveryPanel
+                selectedAssembly={selectedAssembly}
+                onAssemblyChange={handleAssemblyChange}
+                onGeneSelect={handleGeneSelect}
+                selectedGene={selectedGene}
+              />
+            </div>
           </ResizablePanel>
 
           <ResizeHandle direction="horizontal" />
@@ -245,7 +252,9 @@ function ConsoleContent() {
                 maxSize={70}
                 showResize={true}
               >
-                <GeneContextPanel gene={selectedGene} assembly={selectedAssembly} />
+                <div data-tour="gene-context-panel" className="h-full">
+                  <GeneContextPanel gene={selectedGene} assembly={selectedAssembly} />
+                </div>
               </CollapsibleSection>
 
               <ResizeHandle direction="vertical" />
@@ -257,7 +266,7 @@ function ConsoleContent() {
                 maxSize={60}
                 showResize={true}
               >
-                <div className="h-full flex flex-col p-3 space-y-2">
+                <div data-tour="structure-panel" className="h-full flex flex-col p-3 space-y-2">
                   <StructureSelector value={selectedStructure} onChange={setSelectedStructure} />
                   {structureMapping ? (
                     <div className="flex-1 min-h-0">
@@ -284,12 +293,14 @@ function ConsoleContent() {
                 maxSize={50}
                 showResize={true}
               >
-                <SequenceViewer
-                  gene={selectedGene}
-                  assembly={selectedAssembly}
-                  onBaseClick={handleBaseClick}
-                  onBaseHover={handleBaseHover}
-                />
+                <div data-tour="sequence-viewer" className="h-full">
+                  <SequenceViewer
+                    gene={selectedGene}
+                    assembly={selectedAssembly}
+                    onBaseClick={handleBaseClick}
+                    onBaseHover={handleBaseHover}
+                  />
+                </div>
               </CollapsibleSection>
             </ResizablePanelGroup>
           </ResizablePanel>
@@ -305,15 +316,17 @@ function ConsoleContent() {
                 maxSize={80}
                 showResize={true}
               >
-                <VariantAnalysisPanel
-                  gene={selectedGene}
-                  assembly={selectedAssembly}
-                  prefillPosition={selectedPosition}
-                  prefillReference={selectedBase}
-                  hoverPosition={hoveredPosition}
-                  hoverReference={hoveredBase}
-                  sessionId={sessionIdState}
-                />
+                <div data-tour="variant-analysis-panel" className="h-full">
+                  <VariantAnalysisPanel
+                    gene={selectedGene}
+                    assembly={selectedAssembly}
+                    prefillPosition={selectedPosition}
+                    prefillReference={selectedBase}
+                    hoverPosition={hoveredPosition}
+                    hoverReference={hoveredBase}
+                    sessionId={sessionIdState}
+                  />
+                </div>
               </CollapsibleSection>
 
               <ResizeHandle direction="vertical" />
@@ -325,13 +338,23 @@ function ConsoleContent() {
                 maxSize={80}
                 showResize={true}
               >
-                <ClinVarPanel gene={selectedGene} assembly={selectedAssembly} sessionId={sessionIdState} />
+                <div data-tour="clinvar-panel" className="h-full">
+                  <ClinVarPanel gene={selectedGene} assembly={selectedAssembly} sessionId={sessionIdState} />
+                </div>
               </CollapsibleSection>
             </ResizablePanelGroup>
           </ResizablePanel>
         </ResizablePanelGroup>
       </main>
     </div>
+  )
+}
+
+function ConsoleContent() {
+  return (
+    <TourProvider page="console">
+      <ConsoleContentInner />
+    </TourProvider>
   )
 }
 

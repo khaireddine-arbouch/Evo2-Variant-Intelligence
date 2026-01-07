@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     default: "Evo2 Variant Intelligence",
     template: "%s | Evo2 Variant Intelligence",
   },
-  description: "Single-nucleotide variant pathogenicity prediction powered by Evo2 deep learning. A Palantir-grade console for variant intelligence with real-time inference, ClinVar integration, and comprehensive genomic analysis.",
+  description: "Single-nucleotide variant pathogenicity prediction powered by Evo2 deep learning. An enterprise console for variant intelligence with real-time inference, ClinVar integration, and comprehensive genomic analysis.",
   keywords: [
     "pathogenicity prediction",
     "variant analysis",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     url: "/",
     siteName: "Evo2 Variant Intelligence",
     title: "Evo2 Variant Intelligence - Pathogenicity Prediction Platform",
-    description: "Single-nucleotide variant pathogenicity prediction powered by Evo2 deep learning. A Palantir-grade console for variant intelligence.",
+    description: "Single-nucleotide variant pathogenicity prediction powered by Evo2 deep learning. An enterprise console for variant intelligence.",
     images: [
       {
         url: "/Logo.png",

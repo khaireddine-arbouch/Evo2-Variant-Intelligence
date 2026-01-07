@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
-import { Command, Save, User, Settings, LogOut, Dna, LayoutDashboard, BookOpen } from "lucide-react"
+import { Command, Save, User, Settings, LogOut, Dna, LayoutDashboard, BookOpen, HelpCircle } from "lucide-react"
 
 interface AppHeaderProps {
   currentAssembly: string
@@ -20,9 +20,10 @@ interface AppHeaderProps {
   onAssemblyChange?: (assembly: string) => void
   onSessionRename?: (name: string) => void
   onCommandPalette?: () => void
+  onStartTour?: () => void
 }
 
-export function AppHeader({ currentAssembly, sessionName, userEmail, onSessionRename, onCommandPalette }: AppHeaderProps) {
+export function AppHeader({ currentAssembly, sessionName, userEmail, onSessionRename, onCommandPalette, onStartTour }: AppHeaderProps) {
   const router = useRouter()
   const [isEditing, setIsEditing] = useState(false)
   const [editedName, setEditedName] = useState(sessionName)
@@ -131,16 +132,29 @@ export function AppHeader({ currentAssembly, sessionName, userEmail, onSessionRe
           <span className="hidden sm:inline">Dashboard</span>
         </Button>
 
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onCommandPalette}
-          className="h-7 px-2 gap-1.5 text-xs text-muted-foreground hover:text-foreground"
-        >
-          <Command className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline">Command</span>
-          <kbd className="hidden sm:inline-flex h-4 px-1 items-center rounded bg-muted text-[10px] font-mono">⌘K</kbd>
-        </Button>
+        {onStartTour ? (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onStartTour}
+            className="h-7 px-2 gap-1.5 text-xs text-muted-foreground hover:text-foreground"
+            title="Start guided tour"
+          >
+            <HelpCircle className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Guide</span>
+          </Button>
+        ) : (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onCommandPalette}
+            className="h-7 px-2 gap-1.5 text-xs text-muted-foreground hover:text-foreground"
+          >
+            <Command className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Command</span>
+            <kbd className="hidden sm:inline-flex h-4 px-1 items-center rounded bg-muted text-[10px] font-mono">⌘K</kbd>
+          </Button>
+        )}
 
         <Button
           variant="ghost"
