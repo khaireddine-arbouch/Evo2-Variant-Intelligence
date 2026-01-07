@@ -43,7 +43,17 @@ function SignInContent() {
         return
       }
 
-      const { error: signUpError } = await supabase.auth.signUp({ email, password })
+      // Get the site URL for email redirect
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
+      const redirectUrl = `${siteUrl}/signin?redirect=${encodeURIComponent(redirect)}`
+      
+      const { error: signUpError } = await supabase.auth.signUp({ 
+        email, 
+        password,
+        options: {
+          emailRedirectTo: redirectUrl
+        }
+      })
       if (signUpError) throw signUpError
       setMessage("Account created. Please check your email if confirmation is required.")
       setMode("signin")

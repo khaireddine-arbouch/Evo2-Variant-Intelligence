@@ -180,47 +180,52 @@ export function VariantAnalysisPanel({ gene, assembly, prefillPosition, prefillR
 
     const alt = alternative.toUpperCase() === "-" ? "" : alternative.toUpperCase()
 
-    // Check for existing prediction first if we have a session
-    if (sessionId) {
-      setIsCheckingCache(true)
-      try {
-        const cacheParams = new URLSearchParams({
-          session_id: sessionId,
-          position: pos.toString(),
-          chromosome: gene.chromosome,
-          reference: ref,
-          alternative: alt,
-          mutation_type: mutationType,
-        })
-        const cacheResponse = await fetchWithAuth(`/api/predictions?${cacheParams.toString()}`)
-
-        if (cacheResponse.ok) {
-          const cacheData = await cacheResponse.json()
-          if (cacheData.prediction) {
-            // Found cached prediction - use it
-            const cached = cacheData.prediction
-            const cachedResult: VariantAnalysisResult = {
-              position: cached.position,
-              chromosome: cached.chromosome,
-              reference: cached.reference,
-              alternative: cached.alternative,
-              deltaScore: cached.delta_score,
-              prediction: cached.prediction as "Likely pathogenic" | "Likely benign" | "Uncertain significance",
-              confidence: cached.confidence,
-              geneSymbol: cached.gene_symbol || gene.symbol,
-            }
-            setResult(cachedResult)
-            setIsCachedResult(true)
-            setIsCheckingCache(false)
-            return // Exit early - we have the cached result
-          }
-        }
-      } catch (cacheError) {
-        console.error("Error checking cache:", cacheError)
-        // Continue to run analysis if cache check fails
-      } finally {
-        setIsCheckingCache(false)
+    // Check for existing prediction first (session-specific or global cache)
+    setIsCheckingCache(true)
+    try {
+      const cacheParams = new URLSearchParams({
+        position: pos.toString(),
+        chromosome: gene.chromosome,
+        reference: ref,
+        alternative: alt,
+      })
+      // Add session_id if available for session-specific cache lookup
+      if (sessionId) {
+        cacheParams.append('session_id', sessionId)
       }
+      
+      const cacheResponse = await fetchWithAuth(`/api/predictions?${cacheParams.toString()}`)
+
+      if (cacheResponse.ok) {
+        const cacheData = await cacheResponse.json()
+        if (cacheData.prediction) {
+          // Found cached prediction - use it
+          const cached = cacheData.prediction
+          const cachedResult: VariantAnalysisResult = {
+            position: cached.position,
+            chromosome: cached.chromosome,
+            reference: cached.reference,
+            alternative: cached.alternative || "",
+            deltaScore: cached.delta_score,
+            prediction: cached.prediction as "Likely pathogenic" | "Likely benign" | "Uncertain significance",
+            confidence: cached.confidence,
+            geneSymbol: cached.gene_symbol || gene.symbol,
+          }
+          setResult(cachedResult)
+          setIsCachedResult(true)
+          setIsCheckingCache(false)
+          setIsAnalyzing(false) // Make sure analysis state is cleared
+          return // Exit early - we have the cached result
+        }
+      } else if (cacheResponse.status !== 404) {
+        // Log non-404 errors but continue to run analysis
+        console.warn("Cache check returned error:", cacheResponse.status, await cacheResponse.text().catch(() => ""))
+      }
+    } catch (cacheError) {
+      console.error("Error checking cache:", cacheError)
+      // Continue to run analysis if cache check fails
+    } finally {
+      setIsCheckingCache(false)
     }
 
     // No cached result found - run the analysis

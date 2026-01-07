@@ -48,6 +48,30 @@ export async function GET(request: NextRequest) {
 
     if (position && chromosome && reference && alternative !== null) {
       const normalizedAlt = alternative === "" || alternative === "-" ? "" : alternative.toUpperCase()
+      
+      // If session_id is provided, check session-specific cache first
+      if (sessionId) {
+        const owned = await ensureSessionOwned(sessionId, user.id)
+        if (owned) {
+          const { data: sessionPrediction, error: sessionError } = await supabase
+            .from('predictions')
+            .select('*')
+            .eq('session_id', sessionId)
+            .eq('position', parseInt(position))
+            .eq('chromosome', chromosome)
+            .eq('reference', reference.toUpperCase())
+            .eq('alternative', normalizedAlt)
+            .maybeSingle()
+
+          if (sessionError && sessionError.code !== 'PGRST116') throw sessionError
+          if (sessionPrediction) {
+            return NextResponse.json({ prediction: sessionPrediction })
+          }
+        }
+      }
+      
+      // Fallback to global cache (any prediction with these parameters)
+      // This allows sharing predictions across users for the same variant
       const { data: prediction, error } = await supabase
         .from('predictions')
         .select('*')

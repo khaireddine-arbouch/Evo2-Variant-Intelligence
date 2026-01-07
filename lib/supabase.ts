@@ -7,9 +7,15 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Missing Supabase environment variables')
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Get site URL for auth redirects
+const getSiteUrl = () => {
+  if (typeof window !== 'undefined') {
+    return window.location.origin
+  }
+  return process.env.NEXT_PUBLIC_SITE_URL || 'https://evo2-variant-intelligence.vercel.app'
+}
 
-// Server-side client with service role key for admin operations
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 export function createServerClient() {
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
   if (!serviceRoleKey) {
