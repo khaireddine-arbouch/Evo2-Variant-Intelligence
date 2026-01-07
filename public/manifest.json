@@ -1,0 +1,33 @@
+{
+  "name": "Evo2 Variant Intelligence",
+  "short_name": "Evo2 Variant",
+  "description": "Single-nucleotide variant pathogenicity prediction powered by Evo2 deep learning",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020809",
+  "theme_color": "#020809",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/Logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/Logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/Logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["science", "medical", "utilities"],
+  "lang": "en-US",
+  "dir": "ltr"
+}
+

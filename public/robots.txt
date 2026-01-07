@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Disallow admin and API routes
+Disallow: /api/
+Disallow: /signin
+Disallow: /console
+Disallow: /dashboard
+
+# Sitemap
+# Note: Update this URL with your actual domain in production
+Sitemap: https://your-domain.com/sitemap.xml
+
