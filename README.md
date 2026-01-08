@@ -1,4 +1,5 @@
 # Evo2 Variant Pathogenicity Prediction Platform
+![Assembly Analysis](public/images/Assembly%20Analysis.png)
 
 A comprehensive full-stack application for predicting the pathogenicity of genetic variants using the Evo2 deep learning model. This platform provides researchers and clinicians with an advanced interface for analyzing single nucleotide variants (SNVs), deletions, insertions, and other mutation types across multiple genome assemblies.
 
@@ -20,9 +21,10 @@ A comprehensive full-stack application for predicting the pathogenicity of genet
 8. [Installation and Setup](#installation-and-setup)
 9. [Deployment](#deployment)
 10. [Code Structure](#code-structure)
-11. [Key Features](#key-features)
-12. [Configuration](#configuration)
-13. [Development Guidelines](#development-guidelines)
+11. [Application Screenshots](#application-screenshots)
+12. [Key Features](#key-features)
+13. [Configuration](#configuration)
+14. [Development Guidelines](#development-guidelines)
 
 ---
 
@@ -74,6 +76,12 @@ The application follows a three-tier architecture pattern:
 │  └──────────────┘  └──────────────┘  └──────────────┘      │
 └─────────────────────────────────────────────────────────────┘
 ```
+
+### Complete System Architecture Diagram
+
+![State-of-the-Art Genomic Analysis System Architecture](public/docs/STATE-OF-THE-ART%20GENOMIC%20ANALYSIS%20SYSTEM%20ARCHITECTURE.png)
+
+*Complete overview of the Evo2 Variant Pathogenicity Prediction Platform architecture, showing the integration between frontend, backend, and data layers.*
 
 ### Architecture Principles
 
@@ -136,6 +144,10 @@ The application follows a three-tier architecture pattern:
 ---
 
 ## Backend Architecture
+
+![Modal Serverless Backend Architecture](public/docs/MODAL%20SERVERLESS%20BACKEND%20ARCHITECTURE%20EVO2%20VARIANT%20ANALYSIS.png)
+
+*Detailed architecture diagram of the Modal-based serverless backend, showing Evo2 model deployment, API endpoints, and external service integrations.*
 
 ### Modal Deployment
 
@@ -247,6 +259,10 @@ All errors return JSON with a `detail` field containing a human-readable error m
 ---
 
 ## Frontend Architecture
+
+![Frontend Architecture - Next.js App Router & Component System](public/docs/FRONTEND%20ARCHITECTURE%20NEXT.JS%20APP%20ROUTER%20%26%20COMPONENT%20SYSTEM.png)
+
+*Comprehensive frontend architecture diagram illustrating the Next.js App Router structure, component hierarchy, state management, and API route organization.*
 
 ### Next.js App Router Structure
 
@@ -868,6 +884,32 @@ prototype/
 - `lib/types.ts`: TypeScript type definitions
 
 ---
+
+## Application Screenshots
+
+### Main Analysis Console
+
+![Assembly Analysis](public/images/Assembly%20Analysis.png)
+
+*The main analysis console showing the multi-panel workspace with gene context, sequence viewer, variant analysis panel, and ClinVar integration. Users can select genome assemblies (hg38/hg19), search for genes, and analyze variants in real-time.*
+
+### Session Management
+
+![Analysis Sessions](public/images/Analysis%20Sessions.png)
+
+*The session dashboard displaying all saved analysis sessions. Users can create, manage, and resume previous analysis sessions with persistent state and prediction history.*
+
+### 3D Molecular Structure Viewer
+
+![Mol 3D View](public/images/Mol%203d%20View.png)
+
+*Interactive 3D protein structure visualization using Molstar. Users can explore protein structures associated with selected genes, providing structural context for variant analysis.*
+
+### Documentation Interface
+
+![Docs](public/images/Docs.png)
+
+*The documentation interface providing comprehensive API reference, usage guides, and system architecture documentation for developers and researchers.*
 
 ## Key Features
 

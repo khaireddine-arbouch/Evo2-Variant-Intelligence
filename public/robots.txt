@@ -9,5 +9,5 @@ Disallow: /dashboard
 
 # Sitemap
 # Note: Update this URL with your actual domain in production
-Sitemap: https://your-domain.com/sitemap.xml
+Sitemap: https://evo2-variant-intelligence.vercel.app//sitemap.xml
 

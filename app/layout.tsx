@@ -17,7 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://your-domain.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://evo2-variant-intelligence.vercel.app/"),
   title: {
     default: "Evo2 Variant Intelligence",
     template: "%s | Evo2 Variant Intelligence",
